@@ -7,11 +7,13 @@ link_directories(./lib/ ./bin)
 
 add_executable(main-dynamic main.c)
 add_dependencies(main-dynamic testlib)
-target_link_libraries(main-dynamic libtestlib.a uuid -static)
+target_link_libraries(main-dynamic libtestlib.a uuid)
 
-link_libraries("-static")
 
 add_executable(main-static main.c)
-target_link_libraries(main-static PUBLIC "-static" libtestlib.a uuid)
+target_link_libraries(main-static  -static libtestlib.a uuid)
 add_dependencies(main-static testlib)
-#target_link_libraries(main-static libtestlib.a uuid -static)
+set_target_properties(main-static PROPERTIES
+	LINK_SEARCH_START_STATIC ON
+	LINK_SEARCH_END_STATIC ON
+)
